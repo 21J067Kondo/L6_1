@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  get 'titter/top'
+  get 'login_page',to: 'titter#loginp'
+  get 'regi_page',to: 'titter#regi'
+  get 'logout',to: 'titter#logout'
+  get 'new_tweet', to: 'titter#new'
+  post 'titter/create'
+  post 'titter/login'
+  post 'titter/regist'
+  root 'titter#top'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

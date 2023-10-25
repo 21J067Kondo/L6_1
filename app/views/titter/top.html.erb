@@ -1,0 +1,20 @@
+<h1>Titter#top</h1>
+<p>Find me in app/views/titter/top.html.erb</p>
+<%= link_to 'ログイン','login_page' %>
+<%= link_to 'ユーザ登録','regi_page' %>
+<%= link_to 'ログアウト','logout' %>
+
+<% if session[:login_uid]!=nil %>
+<p>プロフィール(場所だけ)</p>
+<%= link_to 'ツイートする','new_tweet' %>
+<% end %>
+
+<br>
+<% @all_tweet.each do |t| %>
+<p>
+<%= t.message %>
+<% user=User.find(t.user_id) %><br>
+<%= user.uid %>    さんがツイート
+</p>
+
+<% end %>
