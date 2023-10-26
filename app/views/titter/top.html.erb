@@ -25,7 +25,7 @@
 <div class="tweet">
 <p>
 <%= t.message %>
-<% user=User.find(t.user_id) %><br>
+<% user=User5.find(t.user_id) %><br>
 <%= user.uid %>    さんがツイート<br>
 <%= @all_like.where(tweet_id: t.id).count %> いいね
 </p>
@@ -34,7 +34,7 @@
 
 <% if p!=nil %>
 <%= button_to '後から思ったらそんなによくなかった', 'not_like',{method: :post,params: {lid: p}} %>
-<% elsif t.user_id!=User.find_by(uid: session[:login_uid]).id %>
+<% elsif t.user_id!=User5.find_by(uid: session[:login_uid]).id %>
 <%= button_to 'いいね','like',{method: :post,params: {tid: t.id}} %>
 <% else %>
 <p>自分のツイートです</p>

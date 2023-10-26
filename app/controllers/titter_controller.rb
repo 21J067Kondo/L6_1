@@ -6,14 +6,14 @@ class TitterController < ApplicationController
     @all_tweet=Tweet.all
     @all_like=Like.all
     if session[:login_uid]
-      @user_like=Like.where(user_id: User.find_by(uid: session[:login_uid]).id)
-      @prof=Profile.find_by(user_id: User.find_by(uid: session[:login_uid]).id).message
+      @user_like=Like.where(user_id: User5.find_by(uid: session[:login_uid]).id)
+      @prof=Profile.find_by(user_id: User5.find_by(uid: session[:login_uid]).id).message
     end
   end
   
   def login
     flash[:notice]=''
-    user=User.find_by(uid: params[:uid])
+    user=User5.find_by(uid: params[:uid])
     if user!=nil
     p=BCrypt::Password.new(user.pass)
     if p==params[:pass]
@@ -29,12 +29,12 @@ class TitterController < ApplicationController
   
   def regist
     flash[:notice]=''
-    user=User.find_by(uid: params[:uid])
+    user=User5.find_by(uid: params[:uid])
     if user!=nil
       flash[:notice] ='別のユーザーidを入力してください'
       render 'regi'
     else
-      user=User.new(uid: params[:uid],pass: BCrypt::Password.create(params[:pass]))
+      user=User5.new(uid: params[:uid],pass: BCrypt::Password.create(params[:pass]))
       user.save
       prof=Profile.new(user_id: user.id)
       prof.save
@@ -53,7 +53,7 @@ class TitterController < ApplicationController
   end
   
   def create
-    user=User.find_by(uid: session[:login_uid])
+    user=User5.find_by(uid: session[:login_uid])
     @tweet=Tweet.new(message: params[:tweet][:message],user_id: user.id)
     if @tweet.save
     end
@@ -61,24 +61,22 @@ class TitterController < ApplicationController
   end
   
   def like
-    puts '-------------'
-    p=Like.new(user_id: User.find_by(uid: session[:login_uid]).id,tweet_id: params[:tid])
+    p=Like.new(user_id: User5.find_by(uid: session[:login_uid]).id,tweet_id: params[:tid])
     p.save
     redirect_to '/'
   end
   
   def not_like
-    puts '-------------'
     Like.find(params[:lid]).destroy
     redirect_to '/'
   end
   
   def new_profile
-    @profile=Profile.find_by(user_id: User.find_by(uid: session[:login_uid]).id)
+    @profile=Profile.find_by(user_id: User5.find_by(uid: session[:login_uid]).id)
   end
   
   def profile
-    p=Profile.find_by(user_id: User.find_by(uid: session[:login_uid]).id)
+    p=Profile.find_by(user_id: User5.find_by(uid: session[:login_uid]).id)
     p.message=params[:profile][:message]
     p.save
     redirect_to '/'
