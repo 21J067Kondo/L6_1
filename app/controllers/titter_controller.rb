@@ -3,7 +3,7 @@ class TitterController < ApplicationController
     params[:session]|=nil
     flash[:notice]=nil
     flash[:ntice]=nil
-    @all_tweet=Tweet.all
+    @all_tweet=Tweet5.all
     @all_like=Like.all
     if session[:login_uid]
       @user_like=Like.where(user_id: User5.find_by(uid: session[:login_uid]).id)
@@ -49,12 +49,12 @@ class TitterController < ApplicationController
   end
   
   def new
-    @tweet=Tweet.new
+    @tweet=Tweet5.new
   end
   
   def create
     user=User5.find_by(uid: session[:login_uid])
-    @tweet=Tweet.new(message: params[:tweet][:message],user_id: user.id)
+    @tweet=Tweet5.new(message: params[:tweet5][:message],user_id: user.id)
     if @tweet.save
     end
     redirect_to '/'
