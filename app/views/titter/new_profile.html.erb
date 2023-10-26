@@ -1,0 +1,5 @@
+<%= form_for @profile ,:html => {:class => 'form'}, url: {action: :profile} do |f| %>
+    <%= f.label :message, 'メッセージ' %><br>
+    <%= f.text_field :message,value: @profile.message%><br>
+    <%= f.submit '登録' %>
+<% end %>

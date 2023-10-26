@@ -3,10 +3,14 @@ Rails.application.routes.draw do
   get 'login_page',to: 'titter#loginp'
   get 'regi_page',to: 'titter#regi'
   get 'logout',to: 'titter#logout'
+  get 'new_profile', to: 'titter#new_profile'
   get 'new_tweet', to: 'titter#new'
+  patch 'titter/profile'
   post 'titter/create'
   post 'titter/login'
   post 'titter/regist'
+  post '/like', to: 'titter#like'
+  post '/not_like', to: 'titter#not_like'
   root 'titter#top'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

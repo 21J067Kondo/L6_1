@@ -1,20 +1,44 @@
-<h1>Titter#top</h1>
-<p>Find me in app/views/titter/top.html.erb</p>
+<h1>Titter</h1>
+<% if session[:login_uid]==nil %>
 <%= link_to 'ログイン','login_page' %>
 <%= link_to 'ユーザ登録','regi_page' %>
-<%= link_to 'ログアウト','logout' %>
+<%end%>
+
 
 <% if session[:login_uid]!=nil %>
-<p>プロフィール(場所だけ)</p>
+<%= link_to 'ログアウト','logout' %>
+<%= link_to 'プロフィールを入力する','new_profile' %>
 <%= link_to 'ツイートする','new_tweet' %>
+
+<p>
+プロフィール<br>
+<% if @prof!=nil %>
+<%= @prof %>
+<% else %>
+プロフィールを入力しましょう
+<% end %>
+</p>
 <% end %>
 
 <br>
 <% @all_tweet.each do |t| %>
+<div class="tweet">
 <p>
 <%= t.message %>
 <% user=User.find(t.user_id) %><br>
-<%= user.uid %>    さんがツイート
+<%= user.uid %>    さんがツイート<br>
+<%= @all_like.where(tweet_id: t.id).count %> いいね
 </p>
+<% if @user_like!=nil %>
+<% p=@user_like.find_by(tweet_id: t.id) %>
 
+<% if p!=nil %>
+<%= button_to '後から思ったらそんなによくなかった', 'not_like',{method: :post,params: {lid: p}} %>
+<% elsif t.user_id!=User.find_by(uid: session[:login_uid]).id %>
+<%= button_to 'いいね','like',{method: :post,params: {tid: t.id}} %>
+<% else %>
+<p>自分のツイートです</p>
+<% end %>
+<%end%>
+</div>
 <% end %>
