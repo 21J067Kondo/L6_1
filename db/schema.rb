@@ -10,7 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_26_074600) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_01_072221) do
+  create_table "like5s", force: :cascade do |t|
+    t.integer "user5_id"
+    t.integer "tweet5_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "likes", force: :cascade do |t|
     t.integer "user_id"
     t.integer "tweet_id"

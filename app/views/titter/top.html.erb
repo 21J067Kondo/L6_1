@@ -1,11 +1,11 @@
 <h1>Titter</h1>
-<% if session[:login_uid]==nil %>
+<% if current_user==nil %>
 <%= link_to 'ログイン','login_page' %>
 <%= link_to 'ユーザ登録','regi_page' %>
 <%end%>
 
 
-<% if session[:login_uid]!=nil %>
+<% if current_user!=nil %>
 <%= link_to 'ログアウト','logout' %>
 <%= link_to 'プロフィールを入力する','new_profile' %>
 <%= link_to 'ツイートする','new_tweet' %>
@@ -27,15 +27,18 @@
 <%= t.message %>
 <% user=User5.find(t.user_id) %><br>
 <%= user.uid %>    さんがツイート<br>
-<%= @all_like.where(tweet_id: t.id).count %> いいね
+<%= @all_like.where(tweet5_id: t.id).count %> いいね
 </p>
 <% if @user_like!=nil %>
-<% p=@user_like.find_by(tweet_id: t.id) %>
+<% p=@user_like.find_by(tweet5_id: t.id) %>
 
 <% if p!=nil %>
-<%= button_to '後から思ったらそんなによくなかった', 'not_like',{method: :post,params: {lid: p}} %>
-<% elsif t.user_id!=User5.find_by(uid: session[:login_uid]).id %>
-<%= button_to 'いいね','like',{method: :post,params: {tid: t.id}} %>
+<%= button_to '後から思ったらそんなによくなかった', 'not_like',{method: :post,params: {tweet: t.id}} %>
+<% if t.liked?(current_user) %>
+<p>いいね済みです</p>
+<% end %>
+<% elsif t.user_id!=current_user.id %>
+<%= button_to 'いいね','like',{method: :post,params: {tweet: t.id}} %>
 <% else %>
 <p>自分のツイートです</p>
 <% end %>

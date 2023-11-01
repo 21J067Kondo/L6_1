@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   post 'titter/login'
   post 'titter/regist'
   post '/like', to: 'titter#like'
-  post '/not_like', to: 'titter#not_like'
+  post '/not_like', to: 'titter#unlike'
   root 'titter#top'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

@@ -4,10 +4,10 @@ class TitterController < ApplicationController
     flash[:notice]=nil
     flash[:ntice]=nil
     @all_tweet=Tweet5.all
-    @all_like=Like.all
-    if session[:login_uid]
-      @user_like=Like.where(user_id: User5.find_by(uid: session[:login_uid]).id)
-      @prof=Profile.find_by(user_id: User5.find_by(uid: session[:login_uid]).id).message
+    @all_like=Like5.all
+    if current_user
+      @user_like=Like5.where(user5_id: current_user.id)
+      @prof=Profile.find_by(user_id: current_user.id).message
     end
   end
   
@@ -18,7 +18,6 @@ class TitterController < ApplicationController
     p=BCrypt::Password.new(user.pass)
     if p==params[:pass]
       session[:login_uid]=params[:uid]
-      puts session[:login_uid]
       redirect_to '/'
     end
     else
@@ -38,7 +37,7 @@ class TitterController < ApplicationController
       user.save
       prof=Profile.new(user_id: user.id)
       prof.save
-      session[:login_uid]=params[:uid]
+      current_user.uid=params[:uid]
       redirect_to '/'
     end
   end
@@ -61,13 +60,16 @@ class TitterController < ApplicationController
   end
   
   def like
-    p=Like.new(user_id: User5.find_by(uid: session[:login_uid]).id,tweet_id: params[:tid])
-    p.save
+    Tweet5.find(params[:tweet]).like(current_user)
     redirect_to '/'
   end
   
-  def not_like
-    Like.find(params[:lid]).destroy
+  def unlike
+    a=Tweet5.find(params[:lid])
+    Tweet5.find(params[:lid]).unlike(current_user)
+    puts '---------'
+    puts a
+    puts '---------'
     redirect_to '/'
   end
   
